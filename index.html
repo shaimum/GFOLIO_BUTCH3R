@@ -51,13 +51,39 @@
   @keyframes gridPan { 0% { transform: perspective(600px) rotateX(12deg) translateY(0); } 100% { transform: perspective(600px) rotateX(12deg) translateY(60px); } }
   .hero-content { position: relative; z-index: 2; text-align: center; }
   .hero-tag { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; color: var(--red); letter-spacing: 6px; text-transform: uppercase; margin-bottom: 20px; animation: fadeIn 1s ease forwards; opacity: 0; animation-delay: 0.3s; }
-  .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(5rem, 16vw, 13rem); line-height: 0.9; letter-spacing: 4px; color: var(--text); animation: slideUp 0.8s ease forwards; opacity: 0; animation-delay: 0.5s; position: relative; }
+  /* HERO TITLE ANIMATION */
+  .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(5rem, 16vw, 13rem); line-height: 0.9; letter-spacing: 4px; color: var(--text); position: relative; }
   .hero-title .slash { color: var(--red); text-shadow: 0 0 40px rgba(232,0,13,0.8), 0 0 80px rgba(232,0,13,0.4); }
-  .hero-title::before, .hero-title::after { content: attr(data-text); position: absolute; inset: 0; font-family: inherit; font-size: inherit; line-height: inherit; letter-spacing: inherit; }
-  .hero-title::before { color: rgba(232,0,13,0.6); animation: glitch1 4s infinite; clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%); }
-  .hero-title::after { color: rgba(0,200,255,0.3); animation: glitch2 4s infinite; clip-path: polygon(0 60%, 100% 60%, 100% 75%, 0 75%); }
-  @keyframes glitch1 { 0%,94%,100%{transform:translateX(0);opacity:0} 95%{transform:translateX(-4px);opacity:1} 97%{transform:translateX(4px);opacity:1} 99%{transform:translateX(-2px);opacity:1} }
-  @keyframes glitch2 { 0%,90%,100%{transform:translateX(0);opacity:0} 91%{transform:translateX(3px);opacity:1} 93%{transform:translateX(-3px);opacity:1} 95%{transform:translateX(1px);opacity:1} }
+
+  /* Each letter animates in */
+  .hero-title .letter {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(80px) rotateX(-90deg) scale(0.6);
+    animation: letterDrop 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  @keyframes letterDrop {
+    0%   { opacity: 0; transform: translateY(80px) rotateX(-90deg) scale(0.6); filter: blur(8px); }
+    60%  { opacity: 1; filter: blur(0); }
+    80%  { transform: translateY(-8px) rotateX(0deg) scale(1.04); }
+    100% { opacity: 1; transform: translateY(0) rotateX(0deg) scale(1); filter: blur(0); }
+  }
+
+  /* Persistent glow pulse on the whole title after load */
+  .hero-title.loaded {
+    animation: titleGlowPulse 3s ease-in-out infinite;
+  }
+  @keyframes titleGlowPulse {
+    0%, 100% { text-shadow: none; }
+    50%       { text-shadow: 0 0 60px rgba(232,0,13,0.12), 0 0 120px rgba(232,0,13,0.06); }
+  }
+
+  /* Glitch layers */
+  .hero-title::before, .hero-title::after { content: attr(data-text); position: absolute; inset: 0; font-family: inherit; font-size: inherit; line-height: inherit; letter-spacing: inherit; pointer-events: none; }
+  .hero-title::before { color: rgba(232,0,13,0.55); animation: glitch1 5s infinite; clip-path: polygon(0 18%, 100% 18%, 100% 36%, 0 36%); }
+  .hero-title::after  { color: rgba(0,200,255,0.25); animation: glitch2 5s infinite; clip-path: polygon(0 58%, 100% 58%, 100% 74%, 0 74%); }
+  @keyframes glitch1 { 0%,92%,100%{transform:translateX(0);opacity:0} 93%{transform:translateX(-5px);opacity:1} 95%{transform:translateX(5px) skewX(3deg);opacity:1} 97%{transform:translateX(-3px);opacity:1} 99%{transform:translateX(2px);opacity:0} }
+  @keyframes glitch2 { 0%,88%,100%{transform:translateX(0);opacity:0} 89%{transform:translateX(4px);opacity:1} 91%{transform:translateX(-4px) skewX(-2deg);opacity:1} 93%{transform:translateX(2px);opacity:1} 95%{transform:translateX(0);opacity:0} }
   .hero-subtitle { font-family: 'Share Tech Mono', monospace; font-size: 0.85rem; color: var(--muted); letter-spacing: 4px; margin-top: 24px; animation: fadeIn 1s ease forwards; opacity: 0; animation-delay: 0.9s; }
   .hero-subtitle span { color: var(--red); }
   .hero-stats { display: flex; gap: 60px; margin-top: 56px; animation: fadeIn 1s ease forwards; opacity: 0; animation-delay: 1.2s; }
@@ -83,9 +109,9 @@
   .avatar-card { background: var(--card); border: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden; }
   .avatar-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(to right, var(--dark-red), var(--red), var(--dark-red)); }
   .avatar-frame { width: 100%; aspect-ratio: 1/1; position: relative; overflow: hidden; background: #0a0a0a; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-  .avatar-frame img { width: 100%; height: 100%; object-fit: cover; display: none; transition: transform 0.5s; }
+  .avatar-frame img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s; }
   .avatar-frame:hover img { transform: scale(1.03); }
-  .avatar-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(139,0,0,0.12) 0%, transparent 70%), repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(232,0,13,0.025) 10px, rgba(232,0,13,0.025) 11px); transition: background 0.3s; }
+  .avatar-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(139,0,0,0.12) 0%, transparent 70%), repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(232,0,13,0.025) 10px, rgba(232,0,13,0.025) 11px); }
   .avatar-frame:hover .avatar-placeholder { background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(139,0,0,0.25) 0%, transparent 70%); }
   .avatar-ph-icon { font-size: 3rem; opacity: 0.18; transition: opacity 0.3s; }
   .avatar-frame:hover .avatar-ph-icon { opacity: 0.45; }
@@ -233,7 +259,7 @@
   <div class="hero-grid"></div>
   <div class="hero-content">
     <p class="hero-tag">— Gaming Portfolio —</p>
-    <h1 class="hero-title" data-text="THE_BUTCH3R">THE_<span class="slash">BUTCH</span>3R</h1>
+    <h1 class="hero-title" id="heroTitle" data-text="THE_BUTCH3R"></h1>
     <p class="hero-subtitle">IGN: <span>THE_BUTCH3R</span> &nbsp;·&nbsp; PUBG MOBILE &amp; eFOOTBALL</p>
     <div class="hero-stats">
       <div class="stat-item"><div class="stat-number" id="counter-wins">0</div><div class="stat-label">Wins</div></div>
@@ -257,14 +283,12 @@
   <div class="profile-wrapper">
     <!-- Avatar -->
     <div class="avatar-card reveal">
-      <div class="avatar-frame" id="avatarFrame" onclick="document.getElementById('avatarInput').click()">
-        <div class="avatar-placeholder" id="avatarPlaceholder">
+      <div class="avatar-frame">
+        <img id="avatarImg" src="assets/profile.jpg" alt="THE_BUTCH3R" onerror="this.style.display='none';document.getElementById('avatarPlaceholder').style.display='flex'">
+        <div class="avatar-placeholder" id="avatarPlaceholder" style="display:none">
           <div class="avatar-ph-icon">🎮</div>
-          <div class="avatar-ph-text">Click to upload<br>profile picture</div>
+          <div class="avatar-ph-text">Add profile.jpg<br>to /assets/ folder</div>
         </div>
-        <img id="avatarImg" src="" alt="Profile Picture">
-        <button class="avatar-upload-btn" onclick="event.stopPropagation();document.getElementById('avatarInput').click()">CHANGE PHOTO</button>
-        <input type="file" id="avatarInput" accept="image/*" style="display:none">
       </div>
       <div class="avatar-meta">
         <div class="avatar-ign">THE_<span>BUTCH</span>3R</div>
@@ -498,7 +522,28 @@
 </footer>
 
 <script>
-  // Scroll reveal
+  // ── HERO TITLE: letter-by-letter drop-in ──
+  (function() {
+    const title = document.getElementById('heroTitle');
+    const text = 'THE_BUTCH3R';
+    // Letters colored red: B,U,T,C,H (indices 4-8)
+    const redLetters = new Set([4,5,6,7,8]);
+    const baseDelay = 0.5; // seconds, after page load
+
+    text.split('').forEach((char, i) => {
+      const span = document.createElement('span');
+      span.className = 'letter' + (redLetters.has(i) ? ' slash' : '');
+      span.textContent = char;
+      span.style.animationDelay = (baseDelay + i * 0.07) + 's';
+      title.appendChild(span);
+    });
+
+    // After all letters land, add glow pulse class
+    const totalDuration = (baseDelay + text.length * 0.07 + 0.6) * 1000;
+    setTimeout(() => title.classList.add('loaded'), totalDuration);
+  })();
+
+  // ── SCROLL REVEAL ──
   const obs = new IntersectionObserver(entries => {
     entries.forEach((e, i) => {
       if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 70); obs.unobserve(e.target); }
@@ -506,7 +551,7 @@
   }, { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-  // Counter
+  // ── COUNTERS ──
   function count(el, end, dur, dec=0) {
     let s=0;
     const step = ts => { if(!s)s=ts; const p=Math.min((ts-s)/dur,1); el.textContent=dec?(p*end).toFixed(1):Math.floor(p*end); if(p<1)requestAnimationFrame(step); else el.textContent=dec?end.toFixed(1):end; };
@@ -518,7 +563,7 @@
     count(document.getElementById('counter-hrs'), 1280, 1500);
   }, 1400);
 
-  // Tab switching
+  // ── TABS ──
   function switchTab(tab, btn) {
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -526,20 +571,6 @@
     btn.classList.add('active');
     document.querySelectorAll('#tab-'+tab+' .reveal').forEach((el,i) => setTimeout(()=>el.classList.add('visible'), i*70));
   }
-
-  // Profile picture upload
-  document.getElementById('avatarInput').addEventListener('change', e => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = ev => {
-      const img = document.getElementById('avatarImg');
-      img.src = ev.target.result;
-      img.style.display = 'block';
-      document.getElementById('avatarPlaceholder').style.display = 'none';
-    };
-    reader.readAsDataURL(file);
-  });
 </script>
 </body>
 </html>
