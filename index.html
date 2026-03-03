@@ -559,13 +559,7 @@
     const step = ts => { if(!s)s=ts; const p=Math.min((ts-s)/dur,1); el.textContent=dec?(p*end).toFixed(1):Math.floor(p*end); if(p<1)requestAnimationFrame(step); else el.textContent=dec?end.toFixed(1):end; };
     requestAnimationFrame(step);
   }
-  setTimeout(() => {
-    count(document.getElementById('counter-wins'), 342, 1500);
-    count(document.getElementById('counter-kd'), 4.7, 1500, 1);
-    count(document.getElementById('counter-hrs'), 1280, 1500);
-  }, 1400);
-
-  // ── TABS ──
+   // ── TABS ──
   function switchTab(tab, btn) {
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
