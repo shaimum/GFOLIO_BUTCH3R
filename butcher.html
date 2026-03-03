@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE_BUTCH3R — Gaming Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #e8000d;
+    --dark-red: #8b0000;
+    --black: #050505;
+    --dark: #0d0d0d;
+    --card: #111111;
+    --text: #e0ddd8;
+    --muted: #666;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--text); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; cursor: crosshair; }
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.07) 2px, rgba(0,0,0,0.07) 4px);
+    pointer-events: none; z-index: 9999;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(5,5,5,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(232,0,13,0.25);
+  }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 3px; color: var(--red); text-shadow: 0 0 20px rgba(232,0,13,0.6); }
+  .nav-logo span { color: var(--text); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    font-family: 'Share Tech Mono', monospace; font-size: 0.72rem;
+    color: var(--muted); text-decoration: none; letter-spacing: 2px; text-transform: uppercase;
+    transition: color 0.2s; position: relative;
+  }
+  .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--red); transition: width 0.3s; }
+  .nav-links a:hover { color: var(--red); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; position: relative; overflow: hidden; padding-top: 80px; }
+  .hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(139,0,0,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 80% 70%, rgba(232,0,13,0.08) 0%, transparent 60%); }
+  .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(232,0,13,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(232,0,13,0.07) 1px, transparent 1px); background-size: 60px 60px; animation: gridPan 20s linear infinite; }
+  @keyframes gridPan { 0% { transform: perspective(600px) rotateX(12deg) translateY(0); } 100% { transform: perspective(600px) rotateX(12deg) translateY(60px); } }
+  .hero-content { position: relative; z-index: 2; text-align: center; }
+  .hero-tag { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; color: var(--red); letter-spacing: 6px; text-transform: uppercase; margin-bottom: 20px; animation: fadeIn 1s ease forwards; opacity: 0; animation-delay: 0.3s; }
+  .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(5rem, 16vw, 13rem); line-height: 0.9; letter-spacing: 4px; color: var(--text); animation: slideUp 0.8s ease forwards; opacity: 0; animation-delay: 0.5s; position: relative; }
+  .hero-title .slash { color: var(--red); text-shadow: 0 0 40px rgba(232,0,13,0.8), 0 0 80px rgba(232,0,13,0.4); }
+  .hero-title::before, .hero-title::after { content: attr(data-text); position: absolute; inset: 0; font-family: inherit; font-size: inherit; line-height: inherit; letter-spacing: inherit; }
+  .hero-title::before { color: rgba(232,0,13,0.6); animation: glitch1 4s infinite; clip-path: polygon(0 20%, 100% 20%, 100% 40%, 0 40%); }
+  .hero-title::after { color: rgba(0,200,255,0.3); animation: glitch2 4s infinite; clip-path: polygon(0 60%, 100% 60%, 100% 75%, 0 75%); }
+  @keyframes glitch1 { 0%,94%,100%{transform:translateX(0);opacity:0} 95%{transform:translateX(-4px);opacity:1} 97%{transform:translateX(4px);opacity:1} 99%{transform:translateX(-2px);opacity:1} }
+  @keyframes glitch2 { 0%,90%,100%{transform:translateX(0);opacity:0} 91%{transform:translateX(3px);opacity:1} 93%{transform:translateX(-3px);opacity:1} 95%{transform:translateX(1px);opacity:1} }
+  .hero-subtitle { font-family: 'Share Tech Mono', monospace; font-size: 0.85rem; color: var(--muted); letter-spacing: 4px; margin-top: 24px; animation: fadeIn 1s ease forwards; opacity: 0; animation-delay: 0.9s; }
+  .hero-subtitle span { color: var(--red); }
+  .hero-stats { display: flex; gap: 60px; margin-top: 56px; animation: fadeIn 1s ease forwards; opacity: 0; animation-delay: 1.2s; }
+  .stat-item { text-align: center; }
+  .stat-number { font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem; color: var(--red); line-height: 1; text-shadow: 0 0 20px rgba(232,0,13,0.4); }
+  .stat-label { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; margin-top: 4px; }
+  .github-badge { display: inline-flex; align-items: center; gap: 10px; padding: 12px 24px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: var(--text); text-decoration: none; font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; letter-spacing: 2px; margin-top: 40px; transition: all 0.3s; }
+  .github-badge:hover { background: rgba(232,0,13,0.1); border-color: var(--red); color: var(--red); }
+  .scroll-hint { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; animation: fadeIn 1s ease forwards; opacity: 0; animation-delay: 1.6s; }
+  .scroll-hint span { font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; letter-spacing: 4px; color: var(--muted); text-transform: uppercase; }
+  .scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--red), transparent); animation: scrollPulse 2s ease infinite; }
+  @keyframes scrollPulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+  /* SHARED */
+  section { padding: 100px 48px; max-width: 1400px; margin: 0 auto; }
+  .section-label { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; color: var(--red); letter-spacing: 6px; text-transform: uppercase; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; }
+  .section-label::before { content: '//'; color: var(--dark-red); }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: 4px; margin-bottom: 56px; }
+  .divider { width: calc(100% - 96px); margin: 0 48px; height: 1px; background: linear-gradient(to right, transparent, rgba(232,0,13,0.4), transparent); }
+
+  /* PROFILE */
+  .profile-wrapper { display: grid; grid-template-columns: 320px 1fr; gap: 56px; align-items: start; }
+  .avatar-card { background: var(--card); border: 1px solid rgba(255,255,255,0.05); position: relative; overflow: hidden; }
+  .avatar-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(to right, var(--dark-red), var(--red), var(--dark-red)); }
+  .avatar-frame { width: 100%; aspect-ratio: 1/1; position: relative; overflow: hidden; background: #0a0a0a; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .avatar-frame img { width: 100%; height: 100%; object-fit: cover; display: none; transition: transform 0.5s; }
+  .avatar-frame:hover img { transform: scale(1.03); }
+  .avatar-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(139,0,0,0.12) 0%, transparent 70%), repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(232,0,13,0.025) 10px, rgba(232,0,13,0.025) 11px); transition: background 0.3s; }
+  .avatar-frame:hover .avatar-placeholder { background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(139,0,0,0.25) 0%, transparent 70%); }
+  .avatar-ph-icon { font-size: 3rem; opacity: 0.18; transition: opacity 0.3s; }
+  .avatar-frame:hover .avatar-ph-icon { opacity: 0.45; }
+  .avatar-ph-text { font-family: 'Share Tech Mono', monospace; font-size: 0.62rem; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; text-align: center; line-height: 1.8; }
+  .avatar-frame::before, .avatar-frame::after { content: ''; position: absolute; width: 22px; height: 22px; z-index: 2; }
+  .avatar-frame::before { top: 10px; left: 10px; border-top: 2px solid rgba(232,0,13,0.7); border-left: 2px solid rgba(232,0,13,0.7); }
+  .avatar-frame::after { bottom: 10px; right: 10px; border-bottom: 2px solid rgba(232,0,13,0.7); border-right: 2px solid rgba(232,0,13,0.7); }
+  .avatar-upload-btn { position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%); font-family: 'Share Tech Mono', monospace; font-size: 0.58rem; letter-spacing: 2px; color: var(--red); background: rgba(5,5,5,0.88); border: 1px solid rgba(232,0,13,0.4); padding: 6px 14px; cursor: pointer; text-transform: uppercase; opacity: 0; transition: opacity 0.3s; white-space: nowrap; }
+  .avatar-frame:hover .avatar-upload-btn { opacity: 1; }
+  .avatar-meta { padding: 22px 24px; }
+  .avatar-ign { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 3px; }
+  .avatar-ign span { color: var(--red); }
+  .avatar-tag { font-family: 'Share Tech Mono', monospace; font-size: 0.62rem; color: var(--muted); letter-spacing: 3px; margin-top: 4px; margin-bottom: 18px; }
+  .avatar-badges { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 18px; }
+  .badge { font-family: 'Share Tech Mono', monospace; font-size: 0.58rem; letter-spacing: 1.5px; padding: 4px 9px; border: 1px solid rgba(232,0,13,0.35); color: var(--red); background: rgba(232,0,13,0.07); }
+  .badge.grey { border-color: rgba(255,255,255,0.1); color: var(--muted); background: transparent; }
+  .avatar-divider { height: 1px; background: rgba(255,255,255,0.06); margin-bottom: 18px; }
+  .avatar-stat-row { display: flex; justify-content: space-between; gap: 6px; }
+  .avatar-stat { flex: 1; text-align: center; padding: 10px 6px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.04); }
+  .avatar-stat-val { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--red); line-height: 1; }
+  .avatar-stat-lbl { font-family: 'Share Tech Mono', monospace; font-size: 0.52rem; color: var(--muted); letter-spacing: 1.5px; margin-top: 3px; }
+  .profile-right { display: flex; flex-direction: column; gap: 28px; }
+  .profile-bio-card { background: var(--card); border: 1px solid rgba(255,255,255,0.04); border-left: 3px solid var(--red); padding: 30px; }
+  .profile-bio-title { font-family: 'Bebas Neue', sans-serif; font-size: 0.95rem; letter-spacing: 3px; color: var(--red); margin-bottom: 14px; }
+  .profile-bio-text { font-size: 1.02rem; color: rgba(224,221,216,0.72); line-height: 1.9; }
+  .profile-bio-text strong { color: var(--text); font-weight: 700; }
+  .profile-games-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .profile-game-card { background: var(--card); border: 1px solid rgba(255,255,255,0.04); padding: 22px; position: relative; overflow: hidden; transition: border-color 0.3s; }
+  .profile-game-card:hover { border-color: rgba(232,0,13,0.3); }
+  .profile-game-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(to right, var(--red), transparent); transform: scaleX(0); transform-origin: left; transition: transform 0.4s; }
+  .profile-game-card:hover::after { transform: scaleX(1); }
+  .profile-game-icon { font-size: 1.8rem; margin-bottom: 10px; }
+  .profile-game-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 2px; margin-bottom: 5px; }
+  .profile-game-rank { font-family: 'Share Tech Mono', monospace; font-size: 0.62rem; color: var(--muted); letter-spacing: 2px; }
+  .profile-game-rank span { color: var(--red); }
+  .profile-game-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin-top: 9px; }
+
+  /* MOMENTS */
+  .moments-tabs { display: flex; margin-bottom: 32px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .tab-btn { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; padding: 14px 26px; background: none; border: none; color: var(--muted); cursor: pointer; position: relative; transition: color 0.2s; }
+  .tab-btn::after { content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 2px; background: var(--red); transform: scaleX(0); transition: transform 0.3s; }
+  .tab-btn.active { color: var(--text); }
+  .tab-btn.active::after { transform: scaleX(1); }
+  .tab-btn:hover { color: var(--text); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .moments-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+  .moment-card { background: var(--card); border: 1px solid rgba(255,255,255,0.04); position: relative; overflow: hidden; cursor: pointer; }
+  .moment-card.featured { grid-column: span 2; grid-row: span 2; }
+  .moment-visual { width: 100%; aspect-ratio: 16/9; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+  .moment-card.featured .moment-visual { aspect-ratio: unset; height: 100%; min-height: 280px; }
+  .moment-visual img { width: 100%; height: 100%; object-fit: cover; display: none; transition: transform 0.5s; }
+  .moment-card:hover .moment-visual img { transform: scale(1.04); }
+  .moment-empty { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: repeating-linear-gradient(45deg, transparent, transparent 12px, rgba(232,0,13,0.025) 12px, rgba(232,0,13,0.025) 13px); transition: background 0.3s; }
+  .moment-card:hover .moment-empty { background: linear-gradient(135deg, rgba(232,0,13,0.09) 0%, transparent 60%); }
+  .moment-empty-icon { font-size: 1.8rem; opacity: 0.18; transition: opacity 0.3s; }
+  .moment-card:hover .moment-empty-icon { opacity: 0.5; }
+  .moment-empty-label { font-family: 'Share Tech Mono', monospace; font-size: 0.58rem; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; text-align: center; line-height: 1.8; }
+  .moment-card.featured .moment-visual::before, .moment-card.featured .moment-visual::after { content: ''; position: absolute; width: 20px; height: 20px; z-index: 3; }
+  .moment-card.featured .moment-visual::before { top: 10px; left: 10px; border-top: 2px solid rgba(232,0,13,0.5); border-left: 2px solid rgba(232,0,13,0.5); }
+  .moment-card.featured .moment-visual::after { bottom: 10px; right: 10px; border-bottom: 2px solid rgba(232,0,13,0.5); border-right: 2px solid rgba(232,0,13,0.5); }
+  .moment-info { padding: 13px 15px; background: rgba(5,5,5,0.9); }
+  .moment-info-title { font-family: 'Bebas Neue', sans-serif; font-size: 0.92rem; letter-spacing: 2px; color: var(--text); }
+  .moment-info-meta { font-family: 'Share Tech Mono', monospace; font-size: 0.58rem; color: var(--muted); letter-spacing: 2px; margin-top: 3px; }
+  .moment-info-meta span { color: var(--red); }
+  .moment-hover-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(5,5,5,0.9) 0%, transparent 50%); opacity: 0; transition: opacity 0.3s; display: flex; align-items: flex-end; padding: 18px; pointer-events: none; }
+  .moment-card:hover .moment-hover-overlay { opacity: 1; }
+  .moment-hover-text { font-family: 'Share Tech Mono', monospace; font-size: 0.62rem; color: var(--red); letter-spacing: 3px; }
+
+  .upload-info { margin-top: 28px; padding: 20px 26px; background: var(--card); border: 1px solid rgba(232,0,13,0.15); border-left: 3px solid var(--red); display: flex; align-items: flex-start; gap: 12px; }
+  .upload-info-icon { font-size: 1rem; margin-top: 2px; }
+  .upload-info-title { font-family: 'Bebas Neue', sans-serif; font-size: 0.9rem; letter-spacing: 2px; color: var(--red); margin-bottom: 5px; }
+  .upload-info-text { font-family: 'Share Tech Mono', monospace; font-size: 0.68rem; color: var(--muted); line-height: 1.9; letter-spacing: 0.5px; }
+  .upload-info-text code { color: var(--text); background: rgba(255,255,255,0.06); padding: 1px 5px; border-radius: 2px; }
+
+  /* ACHIEVEMENTS */
+  .achievements-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2px; }
+  .achievement-card { background: var(--card); padding: 30px; position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.04); transition: border-color 0.3s, transform 0.3s; cursor: pointer; }
+  .achievement-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 0; background: var(--red); transition: height 0.4s; }
+  .achievement-card:hover { border-color: rgba(232,0,13,0.3); transform: translateY(-2px); }
+  .achievement-card:hover::before { height: 100%; }
+  .achievement-icon { font-size: 1.9rem; margin-bottom: 14px; filter: grayscale(0.5); transition: filter 0.3s; }
+  .achievement-card:hover .achievement-icon { filter: none; }
+  .achievement-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.25rem; letter-spacing: 2px; margin-bottom: 7px; }
+  .achievement-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.6; }
+  .achievement-badge { position: absolute; top: 14px; right: 14px; font-family: 'Share Tech Mono', monospace; font-size: 0.56rem; padding: 4px 8px; background: rgba(232,0,13,0.1); color: var(--red); letter-spacing: 1.5px; border: 1px solid rgba(232,0,13,0.28); }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+  .about-text p { font-size: 1.02rem; color: rgba(224,221,216,0.72); line-height: 1.9; margin-bottom: 16px; }
+  .about-text p strong { color: var(--red); font-weight: 700; }
+  .game-row { display: flex; align-items: center; gap: 16px; padding: 15px 18px; background: var(--card); border: 1px solid rgba(255,255,255,0.04); transition: border-color 0.3s; margin-bottom: 10px; }
+  .game-row:hover { border-color: rgba(232,0,13,0.3); }
+  .game-icon { font-size: 1.3rem; }
+  .game-name { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 2px; }
+  .game-rank { font-family: 'Share Tech Mono', monospace; font-size: 0.62rem; color: var(--muted); letter-spacing: 2px; margin-top: 2px; }
+  .game-rank span { color: var(--red); }
+
+  /* FOOTER */
+  footer { border-top: 1px solid rgba(232,0,13,0.15); padding: 40px 48px; display: flex; align-items: center; justify-content: space-between; }
+  .footer-ign { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 3px; color: var(--red); }
+  .footer-note { font-family: 'Share Tech Mono', monospace; font-size: 0.62rem; color: var(--muted); letter-spacing: 2px; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 60px 24px; }
+    .divider { width: calc(100% - 48px); margin: 0 24px; }
+    .profile-wrapper, .profile-games-grid, .about-grid { grid-template-columns: 1fr; gap: 32px; }
+    .moments-grid { grid-template-columns: 1fr 1fr; }
+    .moment-card.featured { grid-column: span 2; grid-row: span 1; }
+    .hero-stats { gap: 28px; }
+    footer { flex-direction: column; gap: 14px; text-align: center; }
+  }
+  @media (max-width: 520px) {
+    .moments-grid { grid-template-columns: 1fr; }
+    .moment-card.featured { grid-column: span 1; }
+    .achievements-grid { grid-template-columns: 1fr; }
+    .moments-tabs { flex-wrap: wrap; }
+    .tab-btn { font-size: 0.62rem; padding: 12px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">THE_<span>BUTCH</span>3R</div>
+  <ul class="nav-links">
+    <li><a href="#profile">Profile</a></li>
+    <li><a href="#moments">Moments</a></li>
+    <li><a href="#achievements">Achievements</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <p class="hero-tag">— Gaming Portfolio —</p>
+    <h1 class="hero-title" data-text="THE_BUTCH3R">THE_<span class="slash">BUTCH</span>3R</h1>
+    <p class="hero-subtitle">IGN: <span>THE_BUTCH3R</span> &nbsp;·&nbsp; PUBG MOBILE &amp; eFOOTBALL</p>
+    <div class="hero-stats">
+      <div class="stat-item"><div class="stat-number" id="counter-wins">0</div><div class="stat-label">Wins</div></div>
+      <div class="stat-item"><div class="stat-number" id="counter-kd">0.0</div><div class="stat-label">K/D Ratio</div></div>
+      <div class="stat-item"><div class="stat-number" id="counter-hrs">0</div><div class="stat-label">Hours Played</div></div>
+    </div>
+    <a href="https://github.com/THE-BUTCH3R" target="_blank" class="github-badge" style="opacity:0;animation:fadeIn 1s ease forwards;animation-delay:1.5s">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.38.6.1.82-.26.82-.58v-2.03c-3.34.72-4.04-1.61-4.04-1.61-.54-1.37-1.33-1.74-1.33-1.74-1.08-.74.08-.73.08-.73 1.2.08 1.83 1.23 1.83 1.23 1.07 1.83 2.8 1.3 3.48 1 .1-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.14-.3-.54-1.52.1-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.14 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.64 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      VIEW ON GITHUB
+    </a>
+  </div>
+  <div class="scroll-hint"><span>Scroll</span><div class="scroll-line"></div></div>
+</div>
+
+<!-- PROFILE -->
+<div class="divider"></div>
+<section id="profile">
+  <p class="section-label reveal">Player Identity</p>
+  <h2 class="section-title reveal">PLAYER <span style="color:var(--red)">PROFILE</span></h2>
+
+  <div class="profile-wrapper">
+    <!-- Avatar -->
+    <div class="avatar-card reveal">
+      <div class="avatar-frame" id="avatarFrame" onclick="document.getElementById('avatarInput').click()">
+        <div class="avatar-placeholder" id="avatarPlaceholder">
+          <div class="avatar-ph-icon">🎮</div>
+          <div class="avatar-ph-text">Click to upload<br>profile picture</div>
+        </div>
+        <img id="avatarImg" src="" alt="Profile Picture">
+        <button class="avatar-upload-btn" onclick="event.stopPropagation();document.getElementById('avatarInput').click()">CHANGE PHOTO</button>
+        <input type="file" id="avatarInput" accept="image/*" style="display:none">
+      </div>
+      <div class="avatar-meta">
+        <div class="avatar-ign">THE_<span>BUTCH</span>3R</div>
+        <div class="avatar-tag">// COMPETITIVE GAMER</div>
+        <div class="avatar-badges">
+          <span class="badge">PUBG MOBILE</span>
+          <span class="badge">eFOOTBALL</span>
+          <span class="badge grey">SINCE 2020</span>
+        </div>
+        <div class="avatar-divider"></div>
+        <div class="avatar-stat-row">
+          <div class="avatar-stat"><div class="avatar-stat-val">342</div><div class="avatar-stat-lbl">WINS</div></div>
+          <div class="avatar-stat"><div class="avatar-stat-val">4.7</div><div class="avatar-stat-lbl">K/D</div></div>
+          <div class="avatar-stat"><div class="avatar-stat-val">1280</div><div class="avatar-stat-lbl">HRS</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right -->
+    <div class="profile-right">
+      <div class="profile-bio-card reveal">
+        <div class="profile-bio-title">// BIO</div>
+        <p class="profile-bio-text">
+          I'm <strong>THE_BUTCH3R</strong> — a competitive gamer living between the battlegrounds of <strong>PUBG Mobile</strong> and the pitch of <strong>eFootball</strong>. Two completely different games. One ruthless mindset.<br><br>
+          In PUBG Mobile, I play for the <strong>Chicken Dinner</strong> — calculated drops, clean rotations, and clutch gunfights when it matters most. In eFootball, I dismantle opponents with possession, pace, and precision finishing.<br><br>
+          This portfolio is where the moments live. Every screenshot, every achievement, every ranked climb — documented right here.
+        </p>
+      </div>
+      <div class="profile-games-grid reveal">
+        <div class="profile-game-card">
+          <div class="profile-game-icon">🔫</div>
+          <div class="profile-game-title">PUBG MOBILE</div>
+          <div class="profile-game-rank">Current Rank: <span>EDIT YOUR TIER</span></div>
+          <div class="profile-game-desc">Battle royale. 100 players drop in. Only THE_BUTCH3R walks out.</div>
+        </div>
+        <div class="profile-game-card">
+          <div class="profile-game-icon">⚽</div>
+          <div class="profile-game-title">eFOOTBALL</div>
+          <div class="profile-game-rank">Current Division: <span>EDIT YOUR DIVISION</span></div>
+          <div class="profile-game-desc">Possession, pace, and precision. The pitch belongs to THE_BUTCH3R.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IN-GAME MOMENTS -->
+<div class="divider"></div>
+<section id="moments">
+  <p class="section-label reveal">Screenshots &amp; Highlights</p>
+  <h2 class="section-title reveal">IN-GAME <span style="color:var(--red)">MOMENTS</span></h2>
+
+  <div class="moments-tabs reveal">
+    <button class="tab-btn active" onclick="switchTab('pubg',this)">🔫 &nbsp;PUBG MOBILE</button>
+    <button class="tab-btn" onclick="switchTab('efootball',this)">⚽ &nbsp;eFOOTBALL</button>
+    <button class="tab-btn" onclick="switchTab('all',this)">🔥 &nbsp;ALL MOMENTS</button>
+  </div>
+
+  <!-- PUBG -->
+  <div class="tab-panel active" id="tab-pubg">
+    <div class="moments-grid">
+      <div class="moment-card featured reveal">
+        <div class="moment-visual">
+          <img id="pubg1" src="" alt="">
+          <div class="moment-empty"><div class="moment-empty-icon">🐔</div><div class="moment-empty-label">Featured PUBG Moment<br>Add image here</div></div>
+          <div class="moment-hover-overlay"><div class="moment-hover-text">// CHICKEN DINNER MOMENT</div></div>
+        </div>
+        <div class="moment-info"><div class="moment-info-title">BEST CHICKEN DINNER</div><div class="moment-info-meta">PUBG MOBILE · <span>FEATURED</span></div></div>
+      </div>
+      <div class="moment-card reveal">
+        <div class="moment-visual">
+          <img src="" alt="">
+          <div class="moment-empty"><div class="moment-empty-icon">🎯</div><div class="moment-empty-label">Headshot Clip</div></div>
+          <div class="moment-hover-overlay"><div class="moment-hover-text">// HEADSHOT HIGHLIGHT</div></div>
+        </div>
+        <div class="moment-info"><div class="moment-info-title">LONG RANGE HEADSHOT</div><div class="moment-info-meta">PUBG MOBILE · <span>SNIPER</span></div></div>
+      </div>
+      <div class="moment-card reveal">
+        <div class="moment-visual">
+          <img src="" alt="">
+          <div class="moment-empty"><div class="moment-empty-icon">💀</div><div class="moment-empty-label">Kill Streak</div></div>
+          <div class="moment-hover-overlay"><div class="moment-hover-text">// MULTI-KILL MOMENT</div></div>
+        </div>
+        <div class="moment-info"><div class="moment-info-title">MULTI-KILL STREAK</div><div class="moment-info-meta">PUBG MOBILE · <span>COMBAT</span></div></div>
+      </div>
+      <div class="moment-card reveal">
+        <div class="moment-visual">
+          <img src="" alt="">
+          <div class="moment-empty"><div class="moment-empty-icon">🔥</div><div class="moment-empty-label">Clutch Play</div></div>
+          <div class="moment-hover-overlay"><div class="moment-hover-text">// 1V4 CLUTCH</div></div>
+        </div>
+        <div class="moment-info"><div class="moment-info-title">1V4 CLUTCH WIN</div><div class="moment-info-meta">PUBG MOBILE · <span>CLUTCH</span></div></div>
+      </div>
+      <div class="moment-card reveal">
+        <div class="moment-visual">
+          <img src="" alt="">
+          <div class="moment-empty"><div class="moment-empty-icon">⚡</div><div class="moment-empty-label">Zone Play</div></div>
+          <div class="moment-hover-overlay"><div class="moment-hover-text">// ZONE CLUTCH</div></div>
+        </div>
+        <div class="moment-info"><div class="moment-info-title">FINAL ZONE SURVIVOR</div><div class="moment-info-meta">PUBG MOBILE · <span>SURVIVAL</span></div></div>
+      </div>
+    </div>
+    <div class="upload-info reveal">
+      <div class="upload-info-icon">💾</div>
+      <div>
+        <div class="upload-info-title">How to Add PUBG Moments</div>
+        <div class="upload-info-text">Add your screenshots to <code>/assets/pubg/</code> · Set <code>&lt;img src="your-file.png"&gt;</code> inside each card · Change <code>display:none</code> to <code>display:block</code> on the img tag.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- eFOOTBALL -->
+  <div class="tab-panel" id="tab-efootball">
+    <div class="moments-grid">
+      <div class="moment-card featured reveal">
+        <div class="moment-visual">
+          <img src="" alt="">
+          <div class="moment-empty"><div class="moment-empty-icon">⚽</div><div class="moment-empty-label">Featured eFootball Moment<br>Add image here</div></div>
+          <div class="moment-hover-overlay"><div class="moment-hover-text">// GOAL OF THE SEASON</div></div>
+        </div>
+        <div class="moment-info"><div class="moment-info-title">GOAL OF THE SEASON</div><div class="moment-info-meta">eFOOTBALL · <span>FEATURED</span></div></div>
+      </div>
+      <div class="moment-card reveal">
+        <div class="moment-visual">
+          <img src="" alt="">
+          <div class="moment-empty"><div class="moment-empty-icon">🥅</div><div class="moment-empty-label">Screamer Goal</div></div>
+          <div class="moment-hover-overlay"><div class="moment-hover-text">// LONG RANGE SCREAMER</div></div>
+        </div>
+        <div class="moment-info"><div class="moment-info-title">LONG RANGE SCREAMER</div><div class="moment-info-meta">eFOOTBALL · <span>STRIKE</span></div></div>
+      </div>
+      <div class="moment-card reveal">
+        <div class="moment-visual">
+          <img src="" alt="">
+          <div class="moment-empty"><div class="moment-empty-icon">🏆</div><div class="moment-empty-label">Match Win</div></div>
+          <div class="moment-hover-overlay"><div class="moment-hover-text">// PROMOTION WIN</div></div>
+        </div>
+        <div class="moment-info"><div class="moment-info-title">DIVISION PROMOTION</div><div class="moment-info-meta">eFOOTBALL · <span>RANKED</span></div></div>
+      </div>
+      <div class="moment-card reveal">
+        <div class="moment-visual">
+          <img src="" alt="">
+          <div class="moment-empty"><div class="moment-empty-icon">🎯</div><div class="moment-empty-label">Perfect Assist</div></div>
+          <div class="moment-hover-overlay"><div class="moment-hover-text">// PERFECT THROUGH BALL</div></div>
+        </div>
+        <div class="moment-info"><div class="moment-info-title">PERFECT THROUGH BALL</div><div class="moment-info-meta">eFOOTBALL · <span>ASSIST</span></div></div>
+      </div>
+      <div class="moment-card reveal">
+        <div class="moment-visual">
+          <img src="" alt="">
+          <div class="moment-empty"><div class="moment-empty-icon">🛡️</div><div class="moment-empty-label">Clean Sheet</div></div>
+          <div class="moment-hover-overlay"><div class="moment-hover-text">// CLEAN SHEET WIN</div></div>
+        </div>
+        <div class="moment-info"><div class="moment-info-title">CLEAN SHEET VICTORY</div><div class="moment-info-meta">eFOOTBALL · <span>DEFENSE</span></div></div>
+      </div>
+    </div>
+    <div class="upload-info reveal">
+      <div class="upload-info-icon">💾</div>
+      <div>
+        <div class="upload-info-title">How to Add eFootball Moments</div>
+        <div class="upload-info-text">Add your screenshots to <code>/assets/efootball/</code> · Set <code>&lt;img src="your-file.png"&gt;</code> inside each card · Change <code>display:none</code> to <code>display:block</code> on the img tag.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALL -->
+  <div class="tab-panel" id="tab-all">
+    <div class="moments-grid">
+      <div class="moment-card featured reveal">
+        <div class="moment-visual">
+          <div class="moment-empty"><div class="moment-empty-icon">🔥</div><div class="moment-empty-label">Your #1 All-Time Moment<br>Upload here</div></div>
+          <div class="moment-hover-overlay"><div class="moment-hover-text">// ALL-TIME BEST</div></div>
+        </div>
+        <div class="moment-info"><div class="moment-info-title">ALL-TIME BEST MOMENT</div><div class="moment-info-meta">PUBG + eFOOTBALL · <span>PINNED</span></div></div>
+      </div>
+      <div class="moment-card reveal">
+        <div class="moment-visual"><div class="moment-empty"><div class="moment-empty-icon">🐔</div><div class="moment-empty-label">PUBG Highlight</div></div><div class="moment-hover-overlay"><div class="moment-hover-text">// PUBG CLIP</div></div></div>
+        <div class="moment-info"><div class="moment-info-title">PUBG HIGHLIGHT</div><div class="moment-info-meta">PUBG MOBILE · <span>COMBAT</span></div></div>
+      </div>
+      <div class="moment-card reveal">
+        <div class="moment-visual"><div class="moment-empty"><div class="moment-empty-icon">⚽</div><div class="moment-empty-label">eFootball Highlight</div></div><div class="moment-hover-overlay"><div class="moment-hover-text">// eFOOTBALL CLIP</div></div></div>
+        <div class="moment-info"><div class="moment-info-title">eFOOTBALL HIGHLIGHT</div><div class="moment-info-meta">eFOOTBALL · <span>GOAL</span></div></div>
+      </div>
+      <div class="moment-card reveal">
+        <div class="moment-visual"><div class="moment-empty"><div class="moment-empty-icon">💀</div><div class="moment-empty-label">PUBG Squad Wipe</div></div><div class="moment-hover-overlay"><div class="moment-hover-text">// SQUAD WIPE</div></div></div>
+        <div class="moment-info"><div class="moment-info-title">SQUAD WIPE</div><div class="moment-info-meta">PUBG MOBILE · <span>SQUAD</span></div></div>
+      </div>
+      <div class="moment-card reveal">
+        <div class="moment-visual"><div class="moment-empty"><div class="moment-empty-icon">🏅</div><div class="moment-empty-label">eFootball Division Win</div></div><div class="moment-hover-overlay"><div class="moment-hover-text">// DIVISION WIN</div></div></div>
+        <div class="moment-info"><div class="moment-info-title">TOP DIVISION WIN</div><div class="moment-info-meta">eFOOTBALL · <span>RANKED</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<div class="divider"></div>
+<section id="achievements">
+  <p class="section-label reveal">Hall of Fame</p>
+  <h2 class="section-title reveal">ACHIEVEMENTS <span style="color:var(--red)">&amp; BADGES</span></h2>
+  <div class="achievements-grid">
+    <div class="achievement-card reveal"><div class="achievement-badge">PUBG · UNLOCKED</div><div class="achievement-icon">🐔</div><div class="achievement-title">Winner Winner</div><div class="achievement-desc">Secured a Chicken Dinner in Solo ranked with zero knockouts taken. Pure dominance from drop to finish.</div></div>
+    <div class="achievement-card reveal"><div class="achievement-badge">PUBG · UNLOCKED</div><div class="achievement-icon">🎯</div><div class="achievement-title">Headshot Machine</div><div class="achievement-desc">Maintained 50%+ headshot rate over 100+ ranked matches. The crosshair never lies.</div></div>
+    <div class="achievement-card reveal"><div class="achievement-badge">PUBG · UNLOCKED</div><div class="achievement-icon">💀</div><div class="achievement-title">The Butcher's Dozen</div><div class="achievement-desc">Dropped 12+ kills in a single match to claim the Chicken Dinner. The zone had no say in it.</div></div>
+    <div class="achievement-card reveal"><div class="achievement-badge">PUBG · LOCKED</div><div class="achievement-icon">👑</div><div class="achievement-title">Conqueror Tier</div><div class="achievement-desc">Reach the top 500 Conqueror rank in PUBG Mobile. The grind is real — the crown is coming.</div></div>
+    <div class="achievement-card reveal"><div class="achievement-badge">eFOOTBALL · UNLOCKED</div><div class="achievement-icon">⚽</div><div class="achievement-title">Unbeaten Run</div><div class="achievement-desc">Went 20 matches without a single loss in Division Rivals. Opponents never found the net.</div></div>
+    <div class="achievement-card reveal"><div class="achievement-badge">eFOOTBALL · UNLOCKED</div><div class="achievement-icon">🏅</div><div class="achievement-title">Top Division</div><div class="achievement-desc">Climbed to the highest division in eFootball ranked. Tiki-taka meets THE_BUTCH3R pressure.</div></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<div class="divider"></div>
+<section id="about">
+  <p class="section-label reveal">The Player</p>
+  <h2 class="section-title reveal">ABOUT <span style="color:var(--red)">THE_BUTCH3R</span></h2>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>I'm <strong>THE_BUTCH3R</strong> — a competitive gamer living between the battlegrounds of <strong>PUBG Mobile</strong> and the pitch of <strong>eFootball</strong>. Two completely different games. One ruthless mindset.</p>
+      <p>In PUBG Mobile, I play for the <strong>Chicken Dinner</strong> — calculated drops, clean rotations, and clutch gunfights when it matters. In eFootball, I dismantle opponents with possession, pace, and precision finishing.</p>
+      <p>This portfolio is where the moments live. Every screenshot, every achievement, every ranked climb — documented right here.</p>
+    </div>
+    <div class="reveal">
+      <div class="game-row"><div class="game-icon">🔫</div><div><div class="game-name">PUBG MOBILE</div><div class="game-rank">Rank: <span>EDIT YOUR TIER</span></div></div></div>
+      <div class="game-row"><div class="game-icon">⚽</div><div><div class="game-name">eFOOTBALL</div><div class="game-rank">Rank: <span>EDIT YOUR DIVISION</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-ign">THE_BUTCH3R</div>
+  <div class="footer-note">// GAMING PORTFOLIO · BUILT TO DOMINATE</div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), i * 70); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // Counter
+  function count(el, end, dur, dec=0) {
+    let s=0;
+    const step = ts => { if(!s)s=ts; const p=Math.min((ts-s)/dur,1); el.textContent=dec?(p*end).toFixed(1):Math.floor(p*end); if(p<1)requestAnimationFrame(step); else el.textContent=dec?end.toFixed(1):end; };
+    requestAnimationFrame(step);
+  }
+  setTimeout(() => {
+    count(document.getElementById('counter-wins'), 342, 1500);
+    count(document.getElementById('counter-kd'), 4.7, 1500, 1);
+    count(document.getElementById('counter-hrs'), 1280, 1500);
+  }, 1400);
+
+  // Tab switching
+  function switchTab(tab, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-'+tab).classList.add('active');
+    btn.classList.add('active');
+    document.querySelectorAll('#tab-'+tab+' .reveal').forEach((el,i) => setTimeout(()=>el.classList.add('visible'), i*70));
+  }
+
+  // Profile picture upload
+  document.getElementById('avatarInput').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const img = document.getElementById('avatarImg');
+      img.src = ev.target.result;
+      img.style.display = 'block';
+      document.getElementById('avatarPlaceholder').style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  });
+</script>
+</body>
+</html>
